@@ -1,0 +1,37 @@
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+            <!-- http://logback.qos.ch/manual/layouts.html -->
+            <pattern>[%4p] [%d{ISO8601}] [%t] %c{15}: %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/console.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="Rotated" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>logs/app.log</File>
+        <encoder>
+            <pattern>[%4p] [%d{{HH:mm:ss.SSS}}-%t] %c{10}: %m%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/app.log.%d{yyyy-MM-dd-HH}</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="Rotated"/>
+    </root>
+
+    <!-- default log levels for packages and classes -->
+    <logger name="com.devscala" level="info"/>
+
+</configuration>
