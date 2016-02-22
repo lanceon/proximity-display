@@ -1,4 +1,4 @@
-package com.devscala.explorer.lcd
+package com.devscala.explorer
 
 import com.pi4j.component.lcd.impl.GpioLcdDisplay
 

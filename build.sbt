@@ -7,39 +7,10 @@ import sbt.Keys._
 import sbt._
 import sbtassembly.AssemblyPlugin.autoImport._
 
-
-// Used by all modules
-val commonLibraries = Seq(
-  "com.typesafe.scala-logging"  %%  "scala-logging"   % "3.1.0",
-  "ch.qos.logback"              %   "logback-classic" % "1.1.3"
-)
-
-val proximityDisplayLibraries = {
-  val pi4jVersion = "1.0"
-  Seq(
-    "com.pi4j"         %  "pi4j-core"   % pi4jVersion,
-    "com.pi4j"         %  "pi4j-device" % pi4jVersion,
-    "io.reactivex"     %% "rxscala"     % "0.26.0",
-    "com.github.scopt" %% "scopt"       % "3.3.0",
-    "org.scalaz"       %% "scalaz-core" % "7.2.0"
-  )
-}
-
-libraryDependencies ++= (proximityDisplayLibraries ++ commonLibraries)
+import Common._
 
 
-lazy val sharedProjectSettings = Seq(
-  scalaVersion := "2.11.7",
-  scalacOptions ++= Seq(
-    "-deprecation",
-    "-unchecked",
-    "-feature",
-    "-optimise",
-    "-language:postfixOps",
-    "-language:implicitConversions"
-  )
-)
-
+libraryDependencies ++= commonLibraries
 
 
 val depsJarName = "proximity-display-assembly-1.0-deps.jar"
@@ -80,25 +51,38 @@ val deploymentSettings = Seq(
 )
 
 
+val distance = (project in file("modules/distance"))
+  .settings(sharedProjectSettings: _*)
+  .settings(
+    name := "distance"
+  )
+
+val lcd = (project in file("modules/lcd"))
+  .settings(sharedProjectSettings: _*)
+  .settings(
+    name := "lcd"
+  )
+
 val `proximity-display` = (project in file("."))
   .settings(sharedProjectSettings: _*)
   .settings(assemblySettings: _*)
   .settings(deploymentSettings: _*)
   .settings(
     resolvers += Resolver.sonatypeRepo("public"),
-    name      := "proximity-display",
-    version   := "1.0"
-  )
+    name      := "proximity-display"
+  ).dependsOn(distance, lcd)
+
 
 enablePlugins(DeploySSH)
 
 
-
-
 TaskKey[Unit]("delDepsJar") := new File(s"$jarPath/$depsJarName").delete()
 
-TaskKey[Unit]("copyLogbackCfg") := IO.copyFile(new File("src/main/resources/logback.xml"), new File("deployment/logback.xml"), preserveLastModified = false)
-
+TaskKey[Unit]("copyLogbackCfg") := IO.copyFile(
+  new File("src/main/resources/logback.xml"),
+  new File("deployment/logback.xml"),
+  preserveLastModified = false
+)
 
 
 addCommandAlias("c",  "compile")
