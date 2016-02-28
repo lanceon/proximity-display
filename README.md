@@ -9,7 +9,7 @@ See more details on project page.
 http://explorer.devscala.com
 
 **Github sources:**
-https://github.com/lanceon/proximity-display
+https://github.com/lanceon/raspberry-pi-explorer
 
 &copy; Alexey Zavalin
 
