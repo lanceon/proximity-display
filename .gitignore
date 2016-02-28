@@ -1,5 +1,4 @@
 .idea/
-deployment/*.jar
 target/
 project/target/
 project/project/

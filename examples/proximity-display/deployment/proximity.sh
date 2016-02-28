@@ -2,7 +2,7 @@
 
 MAIN_JAR="proximity.jar"
 
-DEPS_JAR="proximity-display-assembly-1.0-deps.jar"
+DEPS_JAR="proximity-deps.jar"
 
 MAIN_CLASS="com.devscala.explorer.ProximityApp"
 

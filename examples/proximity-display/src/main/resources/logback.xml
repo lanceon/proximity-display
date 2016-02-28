@@ -2,6 +2,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
             <!-- http://logback.qos.ch/manual/layouts.html -->
             <pattern>[%4p] [%d{ISO8601}] [%t] %c{15}: %m%n</pattern>
         </encoder>
@@ -31,6 +32,6 @@
     </root>
 
     <!-- default log levels for packages and classes -->
-    <logger name="com.devscala.explorer" level="info"/>
+    <logger name="com.devscala" level="info"/>
 
 </configuration>
